@@ -27,7 +27,7 @@ def add_allowed_tokens(farm, dict_of_allowed_tokens, account):
         return farm
 
 
-def deploy_token_farm_and_chen_token():
+def main():
     account = get_account()
     chen = ChenToken.deploy({"from": account})
     farm = TokenFarm.deploy(chen.address, {"from": account})
@@ -43,7 +43,3 @@ def deploy_token_farm_and_chen_token():
     }
     add_allowed_tokens(farm, dict_of_allowed_tokens, account)
     return farm, chen
-
-
-def main():
-    deploy_token_farm_and_chen_token()
