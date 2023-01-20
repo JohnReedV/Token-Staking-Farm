@@ -1,8 +1,7 @@
 from brownie import accounts, network, config, ChenToken, TokenFarm
 from web3 import Web3
 
-LOCAL_BLOCKCHAIN_ENVIROMENTS = ["hardhat",
-                                "development", "ganache", "mainnet-fork"]
+LOCAL_BLOCKCHAIN_ENVIROMENTS = ["hardhat", "development", "ganache", "mainnet-fork"]
 
 KEPT_TOKENS = Web3.toWei(100, "ether")
 
@@ -34,12 +33,12 @@ def main():
     # tx = chen.transfer(farm.address, chen.totalSupply() -
     #                   KEPT_TOKENS, {"from": account})
     # tx.wait(1)
-    weth_token = config["networks"]["rinkeby"]["weth_token"]
-    fau_token = config["networks"]["rinkeby"]["fau_token"]
+    weth_token = config["networks"]["goerli"]["weth_token"]
+    fau_token = config["networks"]["goerli"]["fau_token"]
     dict_of_allowed_tokens = {
-        chen: config["networks"]["rinkeby"]["dai_usd_price_feed"],
-        fau_token: config["networks"]["rinkeby"]["dai_usd_price_feed"],
-        weth_token: config["networks"]["rinkeby"]["eth_usd_price_feed"]
+        chen: config["networks"]["goerli"]["dai_usd_price_feed"],
+        fau_token: config["networks"]["goerli"]["dai_usd_price_feed"],
+        weth_token: config["networks"]["goerli"]["eth_usd_price_feed"]
     }
     add_allowed_tokens(farm, dict_of_allowed_tokens, account)
     return farm, chen
