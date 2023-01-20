@@ -13,6 +13,11 @@ contract TokenFarm is Ownable {
     address[] allowedTokens;
     address[] stakers;
 
+    event Stake(address indexed staker, uint256 amount);
+    event UnStake(address indexed staker);
+    event AddToken(address indexed token);
+    event IssueTokens(address indexed staker, uint256 amount);
+
     IERC20 public ChenToken;
 
     constructor(address _chenTokenAddress) {
@@ -35,6 +40,7 @@ contract TokenFarm is Ownable {
             address recipient = stakers[stakersIndex];
             uint256 userTotalValue = getUserTotalValue(recipient);
             ChenToken.transfer(recipient, userTotalValue);
+            emit IssueTokens(recipient, userTotalValue);
         }
     }
 
@@ -49,6 +55,7 @@ contract TokenFarm is Ownable {
         if (uniqueTokensStaked[msg.sender] == 1) {
             stakers.push(msg.sender);
         }
+        emit Stake(msg.sender, _amount);
     }
 
     function unstakeTokens(address _token) public {
@@ -57,10 +64,12 @@ contract TokenFarm is Ownable {
         IERC20(_token).transfer(msg.sender, balance);
         stakingBalance[_token][msg.sender] = 0;
         uniqueTokensStaked[msg.sender] = uniqueTokensStaked[msg.sender] - 1;
+        emit UnStake(msg.sender);
     }
 
     function addAllowedTokens(address _token) public onlyOwner {
         allowedTokens.push(_token);
+        emit AddToken(_token);
     }
 
     function tokenIsAllowed(address _token) public view returns (bool) {
